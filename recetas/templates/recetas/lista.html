@@ -1,0 +1,17 @@
+<!-- templates/recetas/lista.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Recetas</title>
+</head>
+<body>
+    <h1>Recetas</h1>
+    <ul>
+        {% for receta in recetas %}
+            <li>{{ receta.nombre }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
