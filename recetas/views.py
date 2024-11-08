@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Receta
-from .forms import RecetaForm
+from .forms import RecetaForm, RegistroForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
+from django.contrib import messages
 
 def lista_recetas(request):
     recetas = Receta.objects.all()
@@ -35,3 +38,33 @@ def eliminar_receta(request, pk):
     receta = get_object_or_404(Receta, pk=pk)
     receta.delete()
     return redirect('lista_recetas')
+
+def registro(request):
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Inicia sesión automáticamente después de registrarse
+            messages.success(request, 'Cuenta creada exitosamente. Ahora puedes usar la aplicación.')
+            return redirect('home')  # Redirige a la página principal
+    else:
+        form = RegistroForm()
+    return render(request, 'recetas/registro.html', {'form': form})
+
+def iniciar_sesion(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'recetas/iniciar_sesion.html', {'form': form})
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('home')
