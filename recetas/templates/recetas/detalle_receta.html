@@ -1,20 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ receta.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles_detallereceta.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{ receta.nombre }}</h1>
+        </header>
 
+        <section class="receta-detalle">
+            <p><strong>Ingredientes:</strong> {{ receta.ingredientes }}</p>
+            <p><strong>Preparación:</strong> {{ receta.preparacion }}</p>
+            <p><strong>Tiempo de preparación:</strong> {{ receta.tiempo_preparacion }} minutos</p>
+            <p><strong>Dificultad:</strong> {{ receta.dificultad }}</p>
 
+            {% if receta.user == user %}
+                <div class="acciones">
+                    <a href="{% url 'editar_receta' pk=receta.pk %}" class="btn btn-edit">Editar</a> |
+                    <a href="{% url 'eliminar_receta' pk=receta.pk %}" class="btn btn-delete">Eliminar</a>
+                </div>
+            {% endif %}
 
-  
-   <h1>{{ receta.nombre }}</h1>
-   <p><strong>Ingredientes:</strong> {{ receta.ingredientes }}</p>
-   <p><strong>Preparación:</strong> {{ receta.preparacion }}</p>
-   <p><strong>Tiempo de preparación:</strong> {{ receta.tiempo_preparacion }} minutos</p>
-   <p><strong>Dificultad:</strong> {{ receta.dificultad }}</p>
- 
-   {% if receta.user == user %}
-     <a href="{% url 'editar_receta' pk=receta.pk %}">Editar</a> | 
-     <a href="{% url 'eliminar_receta' pk=receta.pk %}">Eliminar</a>
-   {% endif %}
- 
-   {% if request.user in receta.favoritos.all %}
-     <a href="{% url 'quitar_favorito' pk=receta.pk %}">Quitar de favoritos</a>
-   {% else %}
-     <a href="{% url 'agregar_favorito' pk=receta.pk %}">Agregar a favoritos</a>
-   {% endif %}
+            {% if request.user in receta.favoritos.all %}
+                <a href="{% url 'quitar_favorito' pk=receta.pk %}" class="btn btn-favorito">Quitar de favoritos</a>
+            {% else %}
+                <a href="{% url 'agregar_favorito' pk=receta.pk %}" class="btn btn-favorito">Agregar a favoritos</a>
+            {% endif %}
+        </section>
+
+        <form action="{% url 'home' %}" method="get">
+            <button type="submit" class="btn btn-primary">Volver a Inicio</button>
+        </form>
+    </div>
+</body>
+</html>

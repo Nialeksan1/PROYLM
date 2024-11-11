@@ -1,17 +1,33 @@
-<!-- templates/recetas/lista.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Recetas</title>
+    <link rel="stylesheet" href="{% static 'css/styles_lista.css' %}">
 </head>
+
 <body>
-    <h1>Recetas</h1>
-    <ul>
-        {% for receta in recetas %}
-            <li><a href="{% url 'detalle_receta' pk=receta.pk %}">{{ receta.nombre }}</a></li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <header>
+            <h1>Lista de Recetas</h1>
+        </header>
+        
+        <section class="recetas-lista">
+            <ul>
+                {% for receta in recetas %}
+                    <li><a href="{% url 'detalle_receta' pk=receta.pk %}">{{ receta.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+        </section>
+        
+        <!-- Botón para regresar a Home -->
+        <div class="boton-home">
+            <a href="{% url 'home' %}" class="btn-home">Volver a Inicio</a>
+        </div>
+    </div>
 </body>
+
 </html>

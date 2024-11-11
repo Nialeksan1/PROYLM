@@ -1,17 +1,36 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="es">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Nueva Receta</title>
+    <link rel="stylesheet" href="{% static 'css/styles_nuevareceta.css' %}">
 </head>
+
 <body>
-    <h1>Crear Nueva Receta</h1>
+    <div class="container">
+        <header>
+            <h1>Crear Nueva Receta</h1>
+        </header>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Muestra el formulario -->
-        <button type="submit">Guardar Receta</button>
-    </form>
+        <!-- Formulario para crear una nueva receta -->
+        <section class="form-section">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn-submit">Guardar Receta</button>
+            </form>
+        </section>
 
-    <a href="{% url 'lista_recetas' %}">Volver a la lista de recetas</a>
+        <!-- Enlace para regresar a la lista de recetas -->
+        <div class="link-container">
+            <a href="{% url 'lista_recetas' %}" class="btn-link">Volver a la lista de recetas</a>
+        </div>
+    </div>
 </body>
+
 </html>

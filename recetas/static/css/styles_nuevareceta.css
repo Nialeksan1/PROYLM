@@ -1,0 +1,113 @@
+/* General */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Contenedor principal */
+.container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* Título de la página */
+header h1 {
+    font-size: 2.2em;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* Formulario */
+.form-section {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Estilo para los campos del formulario */
+form p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+/* Botón de guardar receta */
+.btn-submit {
+    width: 100%;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+.btn-submit:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 4px;
+}
+
+/* Enlace para regresar a la lista de recetas */
+.link-container {
+    margin-top: 20px;
+}
+
+.btn-link {
+    font-size: 1em;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.btn-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.btn-link:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 4px;
+}
+
+/* Responsive: Mejora para pantallas pequeñas */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn-submit {
+        padding: 10px;
+    }
+
+    .btn-link {
+        font-size: 0.9em;
+    }
+}

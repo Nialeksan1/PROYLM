@@ -1,52 +1,62 @@
-<!-- recetas/templates/recetas/home.html -->
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Gestor de Recetas</title>
+    <link rel="stylesheet" href="{% static 'css/styles_home.css' %}">
 </head>
 <body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>¡Hola, {{ user.username }}!</h1>
+                <a href="{% url 'login' %}" class="btn-logout">Cerrar sesión</a>
+            </div>
+            <p>¿Listo/a para cocinar algo nuevo hoy?</p>
+        </header>
 
-    <h1>¡Hola, {{ user.username }}!</h1>
-    <p>¿Listo/a para cocinar algo nuevo hoy?</p>
-
-   
-    <!-- Sección de Mis Recetas -->
-   
-        <h2>Mis Recetas</h2>
-        <ul>
+        <!-- Sección de Mis Recetas -->
+        <section class="section-recipes">
+            <h2>Mis Recetas</h2>
             {% if mis_recetas %}
-                {% for receta in mis_recetas %}
-                <ul>
+                <ul class="recipe-list">
                     {% for receta in mis_recetas %}
-                      <li>
-                        <a href="{% url 'detalle_receta' receta.pk %}">{{ receta.nombre }}</a>
-                      </li>
-                    {% empty %}
-                      <li>No has creado ninguna receta aún.</li>
+                        <li class="recipe-item">
+                            <a href="{% url 'detalle_receta' receta.pk %}">{{ receta.nombre }}</a>
+                        </li>
                     {% endfor %}
-                  </ul>
-                {% endfor %}
+                </ul>
             {% else %}
-                <p>Aún no has creado ninguna receta.</p>
+                <p class="no-recipes">Aún no has creado ninguna receta.</p>
             {% endif %}
-        </ul>
-      
-        <h2>Favoritas</h2>
-        {% if favoritas %}
-          <ul>
-            {% for receta in favoritas %}
-              <li><a href="{% url 'detalle_receta' pk=receta.pk %}">{{ receta.nombre }}</a></li>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <p>No tienes recetas favoritas.</p>
-        {% endif %}
-    <!-- Opciones adicionales -->
-    <h2>¿Qué deseas hacer ahora?</h2>
-    <a href="{% url 'nueva_receta' %}">Crear una nueva receta</a> |
-    <a href="{% url 'lista_recetas' %}">Explorar todas las recetas</a>
+        </section>
 
+        <!-- Sección de Favoritas -->
+        <section class="section-favorites">
+            <h2>Favoritas</h2>
+            {% if favoritas %}
+                <ul class="recipe-list">
+                    {% for receta in favoritas %}
+                        <li class="recipe-item">
+                            <a href="{% url 'detalle_receta' pk=receta.pk %}">{{ receta.nombre }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-recipes">No tienes recetas favoritas.</p>
+            {% endif %}
+        </section>
+
+        <!-- Opciones adicionales -->
+        <section class="section-actions">
+            <h2>¿Qué deseas hacer ahora?</h2>
+            <div class="actions">
+                <a href="{% url 'nueva_receta' %}" class="btn-action">Crear una nueva receta</a>
+                <a href="{% url 'lista_recetas' %}" class="btn-action">Explorar todas las recetas</a>
+            </div>
+        </section>
+    </div>
 </body>
 </html>

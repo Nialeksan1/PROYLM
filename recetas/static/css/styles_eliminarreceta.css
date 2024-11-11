@@ -1,0 +1,70 @@
+/* General */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+header h1 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.confirmacion {
+    margin-top: 20px;
+}
+
+/* Botón de eliminar */
+.btn-danger {
+    background-color: #dc3545; /* Rojo brillante */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Rojo más oscuro */
+}
+
+/* Enlace de cancelar */
+.btn-cancelar {
+    display: inline-block;
+    background-color: #007bff; /* Azul */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.1em;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background-color 0.3s;
+}
+
+.btn-cancelar:hover {
+    background-color: #0056b3; /* Azul más oscuro */
+}

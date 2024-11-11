@@ -1,0 +1,122 @@
+/* General */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.receta-detalle p {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.receta-detalle strong {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Estilo para los botones */
+.btn {
+    display: inline-block;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-edit {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-edit:hover {
+    background-color: #218838;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.btn-favorito {
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    margin-top: 15px;
+}
+
+.btn-favorito:hover {
+    background-color: #e0a800;
+}
+
+/* Estilo para las acciones */
+.acciones {
+    margin-top: 20px;
+}
+
+/* Formulario de regreso */
+form {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Responsive: Ajustes para pantallas pequeñas */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    .receta-detalle p {
+        font-size: 1em;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px 20px;
+    }
+}

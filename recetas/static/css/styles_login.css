@@ -1,0 +1,95 @@
+/* General */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa; /* Fondo ligeramente más claro */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Contenedor principal */
+.container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 15px; /* Bordes más redondeados */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px; /* Un poco más ancho para mayor comodidad */
+    text-align: center;
+}
+
+/* Estilo para el formulario de inicio de sesión */
+.form-login {
+    margin-top: 20px;
+    text-align: left;
+}
+
+/* Campos de entrada */
+.form-login input[type="text"],
+.form-login input[type="password"] {
+    width: 100%;
+    padding: 12px 15px; /* Mayor padding para más espacio */
+    margin-bottom: 20px; /* Mayor espacio entre campos */
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Bordes más redondeados */
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-login input[type="text"]:focus,
+.form-login input[type="password"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5); /* Sombra suave al enfocar */
+    outline: none;
+}
+
+/* Botón de enviar */
+.btn-submit {
+    width: 100%;
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 14px;
+    border: none;
+    border-radius: 8px; /* Bordes más redondeados */
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Sutil movimiento al hacer hover */
+}
+
+.btn-submit:active {
+    transform: translateY(1px); /* Efecto al hacer clic */
+}
+
+/* Enlace de registro */
+.register-link {
+    margin-top: 20px;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.register-link a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.register-link a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Mejorar accesibilidad con foco en el enlace */
+.register-link a:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 4px;
+}
