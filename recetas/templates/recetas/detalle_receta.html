@@ -1,0 +1,20 @@
+
+
+
+  
+   <h1>{{ receta.nombre }}</h1>
+   <p><strong>Ingredientes:</strong> {{ receta.ingredientes }}</p>
+   <p><strong>Preparación:</strong> {{ receta.preparacion }}</p>
+   <p><strong>Tiempo de preparación:</strong> {{ receta.tiempo_preparacion }} minutos</p>
+   <p><strong>Dificultad:</strong> {{ receta.dificultad }}</p>
+ 
+   {% if receta.user == user %}
+     <a href="{% url 'editar_receta' pk=receta.pk %}">Editar</a> | 
+     <a href="{% url 'eliminar_receta' pk=receta.pk %}">Eliminar</a>
+   {% endif %}
+ 
+   {% if request.user in receta.favoritos.all %}
+     <a href="{% url 'quitar_favorito' pk=receta.pk %}">Quitar de favoritos</a>
+   {% else %}
+     <a href="{% url 'agregar_favorito' pk=receta.pk %}">Agregar a favoritos</a>
+   {% endif %}

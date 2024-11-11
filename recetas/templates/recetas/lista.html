@@ -10,7 +10,7 @@
     <h1>Recetas</h1>
     <ul>
         {% for receta in recetas %}
-            <li>{{ receta.nombre }}</li>
+            <li><a href="{% url 'detalle_receta' pk=receta.pk %}">{{ receta.nombre }}</a></li>
         {% endfor %}
     </ul>
 </body>
