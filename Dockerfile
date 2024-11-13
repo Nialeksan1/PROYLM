@@ -19,9 +19,8 @@ RUN apt-get update \
     curl \
     lsb-release \
     wget \
-    gnupg 
-RUN 
-
+    gnupg
+RUN apt-get update && apt-get upgrade -y
 
 # Copiar el archivo requirements.txt
 COPY requirements.txt /app/
