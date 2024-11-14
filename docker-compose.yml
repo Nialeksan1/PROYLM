@@ -25,7 +25,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: proylm_backend  # Nombre del contenedor
-    command: sh -c "python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver"
+    command: sh -c "python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000"
+    # command: sh -c "python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver"
     restart: always
     volumes:
       - .:/app
