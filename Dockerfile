@@ -9,6 +9,8 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /app
 
 # Instalar dependencias del sistema necesarias para mysqlclient y otros
+# Instalar el cliente de MySQL en el contenedor de Django
+RUN apt-get update && apt-get install -y mysql-client
 RUN apt-get update -y
 RUN apt-get install -y python3-dev build-essential pkg-config
 RUN apt-get install -y default-libmysqlclient-dev
