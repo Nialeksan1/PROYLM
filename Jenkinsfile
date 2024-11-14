@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = 'docker_hub_credentials' // ID de las credenciales de Docker Hub en Jenkins
-        IMAGE_NAME = 'nialeks1/proylm-backend' // Nombre de la imagen de Docker
+        IMAGE_NAME = 'nialeksan1/proylm-backend' // Nombre de la imagen de Docker
     }
 
     stages {
