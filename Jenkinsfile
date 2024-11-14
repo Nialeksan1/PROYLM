@@ -3,22 +3,36 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = 'docker_hub_credentials' // ID de las credenciales de Docker Hub en Jenkins
-        IMAGE_NAME = 'nialeksan1/proylm-backend' // Nombre de la imagen de Docker
+        IMAGE_NAME = 'nialeks1/proylm-backend' // Nombre de la imagen de Docker
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                // Clona el repositorio desde la rama 'master'
-                git branch: 'master', url: 'https://github.com/Nialeksan1/PROYLM.git'
+                script {
+                    try {
+                        // Clona el repositorio desde la rama 'master'
+                        git branch: 'master', url: 'https://github.com/Nialeksan1/PROYLM.git'
+                        echo 'Checkout del código exitoso.'
+                    } catch (Exception e) {
+                        echo 'Hubo un error al hacer checkout del código.'
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Construye la imagen de Docker con la etiqueta 'latest'
-                    sh 'docker build -t $IMAGE_NAME:latest .'
+                    try {
+                        // Construye la imagen de Docker con la etiqueta 'latest'
+                        sh 'docker build -t $IMAGE_NAME:latest .'
+                        echo 'La imagen de Docker fue construida exitosamente.'
+                    } catch (Exception e) {
+                        echo 'Hubo un error al construir la imagen de Docker.'
+                        currentBuild.result = 'FAILURE'
+                    }
                 }
             }
         }
@@ -26,10 +40,16 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    // Autentica en Docker Hub usando las credenciales configuradas en Jenkins
-                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
-                        // Hace push de la imagen
-                        sh 'docker push $IMAGE_NAME:latest'
+                    try {
+                        // Autentica en Docker Hub usando las credenciales configuradas en Jenkins
+                        docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                            // Hace push de la imagen
+                            sh 'docker push $IMAGE_NAME:latest'
+                            echo 'La imagen fue enviada exitosamente a Docker Hub.'
+                        }
+                    } catch (Exception e) {
+                        echo 'Hubo un error al hacer push de la imagen a Docker Hub.'
+                        currentBuild.result = 'FAILURE'
                     }
                 }
             }
@@ -38,8 +58,14 @@ pipeline {
         stage('Deploy with Docker Compose') {
             steps {
                 script {
-                    // Levanta el entorno completo usando docker-compose
-                    sh 'docker-compose up -d'
+                    try {
+                        // Levanta el entorno completo usando docker-compose
+                        sh 'docker-compose up -d'
+                        echo 'El entorno fue desplegado exitosamente.'
+                    } catch (Exception e) {
+                        echo 'Hubo un error al desplegar el entorno con Docker Compose.'
+                        currentBuild.result = 'FAILURE'
+                    }
                 }
             }
         }
@@ -47,10 +73,10 @@ pipeline {
 
     post {
         success {
-            echo 'La imagen de Docker ha sido construida, enviada a Docker Hub y el entorno ha sido desplegado correctamente.'
+            echo 'El pipeline se completó exitosamente.'
         }
         failure {
-            echo 'Hubo un problema durante el proceso de build, push o deploy.'
+            echo 'Hubo un problema durante la ejecución del pipeline.'
         }
     }
 }
