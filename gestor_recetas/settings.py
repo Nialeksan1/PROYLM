@@ -82,7 +82,7 @@ DATABASES = {
         'USER': config('MYSQL_USER'),
         'PASSWORD': config('MYSQL_PASSWORD'),
         'HOST': config('DB_HOST', 'localhost'),
-        'PORT': config('DB_PORT', '3306'),
+        'PORT': config('DB_PORT', '3307'),
 
         ##'NAME': BASE_DIR / 'db.sqlite3',
         #'OPTIONS': {

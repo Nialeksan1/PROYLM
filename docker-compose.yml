@@ -12,7 +12,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3306:3306"
+      - "3307:3306"
     healthcheck:
       test: ["CMD", "mysql", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}", "-e", "SELECT 1"]
       timeout: 20s
@@ -21,12 +21,17 @@ services:
       - backend
 
   backend:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
-    container_name: proylm_backend  # Nombre del contenedor
-    command: sh -c "python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000"
-    # command: sh -c "python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver"
+    container_name: proylm_backend
+    command: >
+      sh -c "
+        until mysql -h db -u root -p${MYSQL_ROOT_PASSWORD} -e 'select 1'; do
+          echo 'Waiting for MySQL to be ready...';
+          sleep 3;
+        done;
+        python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000"
     restart: always
     volumes:
       - .:/app
@@ -35,10 +40,10 @@ services:
     env_file:
       - .env
     depends_on:
-      db:
-        condition: service_healthy  # Asegura que la base de datos esté lista antes de iniciar el backend
+      - db
     networks:
       - backend
+
 
 volumes:
   data:
