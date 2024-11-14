@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('dockerhub-credentials') // ID de las credenciales de Docker Hub en Jenkins
+        DOCKER_HUB_CREDENTIALS = 'docker_hub_credentials' // ID de las credenciales de Docker Hub en Jenkins
         IMAGE_NAME = 'nialeks1/proylm-backend' // Nombre de la imagen de Docker
     }
 
@@ -26,10 +26,11 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    // Autentica en Docker Hub usando las credenciales
-                    sh 'echo $DOCKER_HUB_CREDENTIALS_PSW | docker login -u $DOCKER_HUB_CREDENTIALS_USR --password-stdin'
-                    // Hace push de la imagen
-                    sh 'docker push $IMAGE_NAME:latest'
+                    // Autentica en Docker Hub usando las credenciales configuradas en Jenkins
+                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
+                        // Hace push de la imagen
+                        sh 'docker push $IMAGE_NAME:latest'
+                    }
                 }
             }
         }
