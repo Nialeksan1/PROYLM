@@ -60,7 +60,7 @@ pipeline {
                 script {
                     try {
                         // Levanta el entorno completo usando docker-compose
-                        sh 'docker-compose up -d'
+                        sh 'docker compose up -d'
                         echo 'El entorno fue desplegado exitosamente.'
                     } catch (Exception e) {
                         echo 'Hubo un error al desplegar el entorno con Docker Compose.'
