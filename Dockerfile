@@ -21,7 +21,7 @@ curl \
 lsb-release \
 wget \
 gnupg 
-RUN apt-get update && apt-get install -y mysql-client
+RUN apt-get update && apt-get install -y default-mysql-client
 RUN apt-get update && apt-get upgrade -y
 
 # Copiar el archivo requirements.txt
