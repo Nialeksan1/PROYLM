@@ -37,8 +37,8 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    
     environment:
+      MYSQL_HOST: 'db'
       MYSQL_ROOT_PASSWORD: Basketball01$
       MYSQL_DATABASE: gestor_recetas
       MYSQL_USER: nineck
