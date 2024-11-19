@@ -84,14 +84,14 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: django-container
-    command: >
-      sh -c "
-        until mysql -h db -u root -p${MYSQL_ROOT_PASSWORD} -e 'select 1'; do
-        echo 'Waiting for MySQL to be ready...';
-        sleep 40;
-      done;
-      python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000"
-    # ["./wait-for-it.sh", "db:3306", "--", "python3", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: ["./wait-for-it.sh", "db:3306", "--", "python3", "manage.py", "runserver", "0.0.0.0:8000"]
+    # >
+    #   sh -c "
+    #     until mysql -h db -u root -p${MYSQL_ROOT_PASSWORD} -e 'select 1'; do
+    #     echo 'Waiting for MySQL to be ready...';
+    #     sleep 40;
+    #   done;
+    #   python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000"
     restart: always
     volumes:
       - .:/app
