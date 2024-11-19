@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'gestor_recetas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('MYSQL_DATABASE'),
-        'USER': config('MYSQL_USER'),
-        'PASSWORD': config('MYSQL_PASSWORD'),
-        'HOST': config('DB_HOST', 'localhost'),
-        'PORT': config('DB_PORT', '3307'),
+        'NAME': 'gestor_recetas',
+        'USER': 'root',
+        'PASSWORD': 'Basketball01$',
+        'HOST': 'db',
+        'PORT': 3306,
 
         ##'NAME': BASE_DIR / 'db.sqlite3',
         #'OPTIONS': {
