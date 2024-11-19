@@ -55,7 +55,7 @@ pipeline {
             }
         }
 
-        /* stage('Deploy with Docker Compose') {
+        stage('Deploy with Docker Compose') {
             steps {
                 script {
                     try {
@@ -68,7 +68,7 @@ pipeline {
                     }
                 }
             }
-        } */
+        }
     }
 
     post {
