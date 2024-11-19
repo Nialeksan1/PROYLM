@@ -2,6 +2,8 @@ pipeline {
     agent any
 
     environment {
+        MYSQL_ROOT_PASSWORD = "Basketball01$"
+        MYSQL_DATABASE = "gestor_recetas"
         DOCKER_HUB_CREDENTIALS = 'docker_hub_credentials' // ID de las credenciales de Docker Hub en Jenkins
         IMAGE_NAME = 'nialeksan1/proylm-backend' // Nombre de la imagen de Docker
     }
@@ -91,7 +93,7 @@ pipeline {
                     try {
                         // Conecta a MySQL para crear la base de datos si no existe
                         sh """
-                        docker exec -i proylm_mysql mysql -u root -pBasketball01$ -e "CREATE DATABASE IF NOT EXISTS gestor_recetas;"
+                        docker exec -i proylm_mysql bash -c 'mysql -u root -p\${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS \${MYSQL_DATABASE};"'
                         """
                         echo 'Base de datos creada (o ya existe).'
                     } catch (Exception e) {
