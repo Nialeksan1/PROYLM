@@ -55,6 +55,21 @@ pipeline {
             }
         }
 
+        stage('Deploy with Docker Compose') {
+            steps {
+                script {
+                    try {
+                        // Levanta el entorno completo usando docker-compose
+                        sh 'docker compose up -d'
+                        echo 'El entorno fue desplegado exitosamente.'
+                    } catch (Exception e) {
+                        echo 'Hubo un error al desplegar el entorno con Docker Compose.'
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+
         stage('Wait for Database') {
             steps {
                 script {
@@ -81,21 +96,6 @@ pipeline {
                         echo 'Base de datos creada (o ya existe).'
                     } catch (Exception e) {
                         echo 'Hubo un error al crear la base de datos.'
-                        currentBuild.result = 'FAILURE'
-                    }
-                }
-            }
-        }
-
-        stage('Deploy with Docker Compose') {
-            steps {
-                script {
-                    try {
-                        // Levanta el entorno completo usando docker-compose
-                        sh 'docker compose up -d'
-                        echo 'El entorno fue desplegado exitosamente.'
-                    } catch (Exception e) {
-                        echo 'Hubo un error al desplegar el entorno con Docker Compose.'
                         currentBuild.result = 'FAILURE'
                     }
                 }
