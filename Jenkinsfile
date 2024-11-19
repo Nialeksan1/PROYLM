@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        MYSQL_ROOT_PASSWORD = "Basketball01$"
-        MYSQL_DATABASE = "gestor_recetas"
+        MYSQL_ROOT_PASSWORD = 'Basketball01$'
+        MYSQL_DATABASE = 'gestor_recetas'
         DOCKER_HUB_CREDENTIALS = 'docker_hub_credentials' // ID de las credenciales de Docker Hub en Jenkins
         IMAGE_NAME = 'nialeksan1/proylm-backend' // Nombre de la imagen de Docker
     }
