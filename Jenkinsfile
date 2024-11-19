@@ -55,6 +55,38 @@ pipeline {
             }
         }
 
+        stage('Wait for Database') {
+            steps {
+                script {
+                    try {
+                        // Espera a que el servicio de MySQL esté disponible
+                        sh './wait-for-it.sh db:3306 --timeout=60 --strict -- echo "MySQL is ready!"'
+                        echo 'MySQL está listo para usar.'
+                    } catch (Exception e) {
+                        echo 'El servicio MySQL no está listo.'
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+
+        stage('Create Database (if necessary)') {
+            steps {
+                script {
+                    try {
+                        // Conecta a MySQL para crear la base de datos si no existe
+                        sh """
+                        docker exec -i proylm_mysql mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
+                        """
+                        echo 'Base de datos creada (o ya existe).'
+                    } catch (Exception e) {
+                        echo 'Hubo un error al crear la base de datos.'
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+
         stage('Deploy with Docker Compose') {
             steps {
                 script {
@@ -64,6 +96,25 @@ pipeline {
                         echo 'El entorno fue desplegado exitosamente.'
                     } catch (Exception e) {
                         echo 'Hubo un error al desplegar el entorno con Docker Compose.'
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+
+        stage('Migrate and Run Django') {
+            steps {
+                script {
+                    try {
+                        // Realiza las migraciones de Django
+                        sh 'docker exec -i proylm_backend python3 manage.py migrate --noinput'
+                        // Recoge archivos estáticos
+                        sh 'docker exec -i proylm_backend python3 manage.py collectstatic --noinput'
+                        // Inicia el servidor de Django
+                        sh 'docker exec -i proylm_backend python3 manage.py runserver 0.0.0.0:8000'
+                        echo 'Las migraciones fueron exitosas.'
+                    } catch (Exception e) {
+                        echo 'Hubo un error con las migraciones de Django.'
                         currentBuild.result = 'FAILURE'
                     }
                 }
