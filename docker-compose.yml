@@ -27,13 +27,7 @@ services:
     container_name: proylm_backend
     command: >
       sh -c "
-        until mysql -h db -u root -p${MYSQL_ROOT_PASSWORD} -e 'select 1'; do
-          echo 'Waiting for MySQL to be ready...';
-          sleep 40;
-        done;
-        echo 'MySQL is ready!';
-        # Ejecuta el script wait-for-it.sh antes de continuar
-        ./wait-for-it.sh db:3306 --timeout=60 --strict -- echo 'MySQL is ready for Django!';
+        ./wait-for-it.sh db:3306 --timeout=60 --strict -- echo 'MySQL is ready!';
         python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000"
     restart: always
     volumes:
