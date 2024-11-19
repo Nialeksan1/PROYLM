@@ -1,30 +1,85 @@
+# version: '3.8'
+# services:
+#   db:
+#     image: mysql:8.0
+#     container_name: proylm_mysql  # Nombre del contenedor
+#     restart: always
+#     volumes:
+#       - data:/var/lib/mysql
+#     environment:
+#       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+#       MYSQL_DATABASE: ${MYSQL_DATABASE}
+#       MYSQL_USER: ${MYSQL_USER}
+#       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#     ports:
+#       - "3307:3306"
+#     healthcheck:
+#       test: ["CMD", "sh", "-c", "mysql -h localhost -u root -p${MYSQL_ROOT_PASSWORD} -e 'SELECT 1'"]
+#       timeout: 20s
+#       retries: 10
+#     networks:
+#       - backend
+
+#   backend:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: proylm_backend
+#     command: >
+#       sh -c "
+#         until mysql -h db -u root -p${MYSQL_ROOT_PASSWORD} -e 'select 1'; do
+#         echo 'Waiting for MySQL to be ready...';
+#         sleep 40;
+#       done;
+#       python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000"
+#     restart: always
+#     volumes:
+#       - .:/app
+#     ports:
+#       - "8000:8000"
+#     environment:
+#       MYSQL_HOST: 'db'
+#       MYSQL_ROOT_PASSWORD: Basketball01$
+#       MYSQL_DATABASE: gestor_recetas
+#       MYSQL_USER: nineck
+#       MYSQL_PASSWORD: Basketball01$
+#       MYSQL_PORT: 3306
+#     env_file:
+#       - .env
+#     depends_on:
+#       - db
+#     networks:
+#       - backend
+
+
+# volumes:
+#   data:
+
+# networks:
+#   backend:
+#     driver: bridge
 version: '3.8'
+
 services:
   db:
-    image: mysql:8.0
-    container_name: proylm_mysql  # Nombre del contenedor
+    image: mysql:latest
+    container_name: mysql-container
     restart: always
-    volumes:
-      - data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: Basketball01$
+      MYSQL_DATABASE: gestor_recetas
     ports:
       - "3307:3306"
-    healthcheck:
-      test: ["CMD", "sh", "-c", "mysql -h localhost -u root -p${MYSQL_ROOT_PASSWORD} -e 'SELECT 1'"]
-      timeout: 20s
-      retries: 10
+    volumes:
+      - mysql_data:/var/lib/mysql
     networks:
-      - backend
+      - django-network
 
-  backend:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: proylm_backend
+    container_name: django-container
     command: >
       sh -c "
         until mysql -h db -u root -p${MYSQL_ROOT_PASSWORD} -e 'select 1'; do
@@ -33,28 +88,25 @@ services:
       done;
       python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000"
     restart: always
+    # ["./wait-for-it.sh", "db:3306", "--", "python3", "manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - .:/app
     ports:
       - "8000:8000"
     environment:
-      MYSQL_HOST: 'db'
-      MYSQL_ROOT_PASSWORD: Basketball01$
-      MYSQL_DATABASE: gestor_recetas
-      MYSQL_USER: nineck
+      MYSQL_HOST: db
+      MYSQL_USER: root
       MYSQL_PASSWORD: Basketball01$
-      MYSQL_PORT: 3306
-    env_file:
-      - .env
+      MYSQL_DB: gestor_recetas
     depends_on:
       - db
     networks:
-      - backend
-
-
-volumes:
-  data:
+      - django-network
 
 networks:
-  backend:
+  django-network:
     driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
