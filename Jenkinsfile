@@ -57,7 +57,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Database Container') {
+        /* stage('Deploy Database Container') {
             steps {
                 script {
                     try {
@@ -87,14 +87,14 @@ pipeline {
                     }
                 }
             }
-        }
+        } */
 
         stage('Deploy Backend Container') {
             steps {
                 script {
                     try {
                         // Levanta el contenedor de backend después de que la base de datos esté lista
-                        sh 'docker compose up -d backend'
+                        sh 'docker compose up -d'
                         echo 'Contenedor de backend desplegado exitosamente.'
                     } catch (Exception e) {
                         echo 'Hubo un error al desplegar el contenedor de backend.'
@@ -104,7 +104,7 @@ pipeline {
             }
         }
 
-        stage('Migrate and Run Django') {
+        /* stage('Migrate and Run Django') {
             steps {
                 script {
                     try {
@@ -121,7 +121,7 @@ pipeline {
                     }
                 }
             }
-        }
+        } */
     }
 
     post {
