@@ -65,7 +65,7 @@ pipeline {
                     while (retryCount < maxRetries && !success) {
                         try {
                             echo "Attempting to create database (Attempt ${retryCount + 1})..."
-                            sh 'docker compose exec -T db mysql -u root -p Basketball01$ -e "CREATE DATABASE IF NOT EXISTS gestor_recetas;"'
+                            sh 'docker compose exec -T db mysql -u root -pBasketball01$ -e "CREATE DATABASE IF NOT EXISTS gestor_recetas;"'
                             success = true
                         } catch (Exception e) {
                             retryCount++
