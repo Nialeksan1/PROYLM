@@ -78,7 +78,7 @@ pipeline {
                     try {
                         // Conecta a MySQL para crear la base de datos si no existe
                         sh '''
-                            docker exec -t proylm_mysql bash -c "mysql -u root -p${MYSQL_ROOT_PASSWORD} -e 'CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};'"
+                            docker exec -t proylm_mysql bash -c "mysql -h 127.0.0.1 -u root -pBasketball01\$ -e 'CREATE DATABASE IF NOT EXISTS gestor_recetas;'"
                         '''
                         echo 'Base de datos creada (o ya existe).'
                     } catch (Exception e) {
