@@ -55,15 +55,15 @@ pipeline {
             }
         }
 
-        stage('Deploy with Docker Compose') {
+        stage('Deploy Database Container') {
             steps {
                 script {
                     try {
-                        // Levanta el entorno completo usando docker-compose
-                        sh 'docker compose up -d'
-                        echo 'El entorno fue desplegado exitosamente.'
+                        // Levanta solo el contenedor de la base de datos
+                        sh 'docker compose up -d db'
+                        echo 'Contenedor de la base de datos desplegado exitosamente.'
                     } catch (Exception e) {
-                        echo 'Hubo un error al desplegar el entorno con Docker Compose.'
+                        echo 'Hubo un error al desplegar el contenedor de la base de datos.'
                         currentBuild.result = 'FAILURE'
                     }
                 }
@@ -96,6 +96,21 @@ pipeline {
                         echo 'Base de datos creada (o ya existe).'
                     } catch (Exception e) {
                         echo 'Hubo un error al crear la base de datos.'
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Backend Container') {
+            steps {
+                script {
+                    try {
+                        // Levanta el contenedor de backend después de que la base de datos esté lista
+                        sh 'docker compose up -d backend'
+                        echo 'Contenedor de backend desplegado exitosamente.'
+                    } catch (Exception e) {
+                        echo 'Hubo un error al desplegar el contenedor de backend.'
                         currentBuild.result = 'FAILURE'
                     }
                 }
