@@ -70,7 +70,7 @@ pipeline {
             }
         }
 
-        stage('Wait for Database') {
+        /* stage('Wait for Database') {
             steps {
                 script {
                     try {
@@ -83,7 +83,7 @@ pipeline {
                     }
                 }
             }
-        }
+        } */
 
         stage('Create Database (if necessary)') {
             steps {
@@ -91,7 +91,7 @@ pipeline {
                     try {
                         // Conecta a MySQL para crear la base de datos si no existe
                         sh """
-                        docker exec -i proylm_mysql mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
+                        docker exec -i proylm_mysql mysql -u root -pBasketball01$ -e "CREATE DATABASE IF NOT EXISTS gestor_recetas;"
                         """
                         echo 'Base de datos creada (o ya existe).'
                     } catch (Exception e) {
