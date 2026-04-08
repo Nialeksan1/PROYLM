@@ -1,29 +1,22 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Receta</title>
-    <link rel="stylesheet" href="{% static 'css/styles_editarreceta.css' %}">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Editar Receta</h1>
-        </header>
+{% extends 'recetas/base.html' %}
 
-        <section class="form-container">
+{% block title %}Editar Receta{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h1>Editar Receta</h1>
+        </div>
+
+        <div class="form-container">
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }} <!-- Mostrar el formulario -->
-                <button type="submit" class="btn btn-submit">Guardar cambios</button>
+                {{ form.as_p }}
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    <a href="{% url 'detalle_receta' pk=receta.pk %}" class="btn btn-outline">Cancelar</a>
+                </div>
             </form>
-        </section>
-
-        <section class="cancelar-container">
-            <a href="{% url 'detalle_receta' pk=receta.pk %}" class="btn btn-cancel">Cancelar</a>
-        </section>
+        </div>
     </div>
-</body>
-</html>
+{% endblock %}

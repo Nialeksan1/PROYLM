@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestor de Recetas{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="{% url 'home' %}" class="navbar-brand">Gestor de Recetas</a>
+            <div class="navbar-links">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'home' %}">Inicio</a>
+                    <a href="{% url 'lista_recetas' %}">Explorar</a>
+                    <a href="{% url 'nueva_receta' %}">Nueva receta</a>
+                    <form method="post" action="{% url 'cerrar_sesion' %}" class="navbar-logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="navbar-link-btn">Cerrar sesion</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Iniciar sesion</a>
+                    <a href="{% url 'registro' %}">Registrarse</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

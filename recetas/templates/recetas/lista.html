@@ -1,33 +1,61 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'recetas/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Recetas</title>
-    <link rel="stylesheet" href="{% static 'css/styles_lista.css' %}">
-</head>
+{% block title %}Explorar Recetas{% endblock %}
 
-<body>
-    <div class="container">
-        <header>
-            <h1>Lista de Recetas</h1>
-        </header>
-        
-        <section class="recetas-lista">
-            <ul>
-                {% for receta in recetas %}
-                    <li><a href="{% url 'detalle_receta' pk=receta.pk %}">{{ receta.nombre }}</a></li>
-                {% endfor %}
-            </ul>
-        </section>
-        
-        <!-- Botón para regresar a Home -->
-        <div class="boton-home">
-            <a href="{% url 'home' %}" class="btn-home">Volver a Inicio</a>
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h1>Explorar Recetas</h1>
         </div>
-    </div>
-</body>
 
-</html>
+        <form method="get" class="search-bar">
+            <input type="text" name="q" value="{{ query }}" placeholder="Buscar recetas por nombre...">
+            <button type="submit">Buscar</button>
+        </form>
+
+        {% if recetas %}
+            <div class="recipe-grid">
+                {% for receta in recetas %}
+                    <div class="recipe-card">
+                        <h3><a href="{% url 'detalle_receta' receta.pk %}">{{ receta.nombre }}</a></h3>
+                        <div class="recipe-meta">
+                            <span>{{ receta.tiempo_preparacion }} min</span>
+                            <span>{{ receta.dificultad }}</span>
+                            {% if receta.user %}
+                                <span>por {{ receta.user.username }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if recetas.has_other_pages %}
+                <div class="pagination">
+                    {% if recetas.has_previous %}
+                        <a href="?{% if query %}q={{ query }}&{% endif %}page={{ recetas.previous_page_number }}">Anterior</a>
+                    {% endif %}
+
+                    {% for num in recetas.paginator.page_range %}
+                        {% if recetas.number == num %}
+                            <span class="current">{{ num }}</span>
+                        {% else %}
+                            <a href="?{% if query %}q={{ query }}&{% endif %}page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if recetas.has_next %}
+                        <a href="?{% if query %}q={{ query }}&{% endif %}page={{ recetas.next_page_number }}">Siguiente</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            <p class="empty-state">
+                {% if query %}
+                    No se encontraron recetas para "{{ query }}".
+                {% else %}
+                    Aun no hay recetas publicadas.
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

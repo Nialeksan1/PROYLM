@@ -1,29 +1,21 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrarse</title>
-    <link rel="stylesheet" href="{% static 'css/styles_registro.css' %}">
-</head>
-<body>
-    <div class="container">
-        <header>
+{% extends 'recetas/base.html' %}
+
+{% block title %}Registrarse{% endblock %}
+
+{% block content %}
+    <div class="auth-wrapper">
+        <div class="auth-card">
             <h1>Crear una cuenta</h1>
-        </header>
 
-        <section class="registro-form">
-            <form method="post">
-                {% csrf_token %}
-                <div class="form-group">
+            <div class="form-container">
+                <form method="post">
+                    {% csrf_token %}
                     {{ form.as_p }}
-                </div>
-                <button type="submit" class="btn btn-primary">Registrarse</button>
-            </form>
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </form>
+            </div>
 
-            <p class="login-link">¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a>.</p>
-        </section>
+            <p class="auth-footer">Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesion aqui</a>.</p>
+        </div>
     </div>
-</body>
-</html>
+{% endblock %}

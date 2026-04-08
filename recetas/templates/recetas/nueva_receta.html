@@ -1,36 +1,22 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'recetas/base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Nueva Receta</title>
-    <link rel="stylesheet" href="{% static 'css/styles_nuevareceta.css' %}">
-</head>
+{% block title %}Crear Nueva Receta{% endblock %}
 
-<body>
-    <div class="container">
-        <header>
+{% block content %}
+    <div class="card">
+        <div class="card-header">
             <h1>Crear Nueva Receta</h1>
-        </header>
+        </div>
 
-        <!-- Formulario para crear una nueva receta -->
-        <section class="form-section">
+        <div class="form-container">
             <form method="post">
                 {% csrf_token %}
-                <div class="form-group">
-                    {{ form.as_p }}
+                {{ form.as_p }}
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Guardar Receta</button>
+                    <a href="{% url 'home' %}" class="btn btn-outline">Cancelar</a>
                 </div>
-                <button type="submit" class="btn-submit">Guardar Receta</button>
             </form>
-        </section>
-
-        <!-- Enlace para regresar a la lista de recetas -->
-        <div class="link-container">
-            <a href="{% url 'lista_recetas' %}" class="btn-link">Volver a la lista de recetas</a>
         </div>
     </div>
-</body>
-
-</html>
+{% endblock %}

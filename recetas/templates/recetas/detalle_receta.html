@@ -1,41 +1,52 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ receta.nombre }}</title>
-    <link rel="stylesheet" href="{% static 'css/styles_detallereceta.css' %}">
-</head>
-<body>
-    <div class="container">
-        <header>
+{% extends 'recetas/base.html' %}
+
+{% block title %}{{ receta.nombre }} - Gestor de Recetas{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
             <h1>{{ receta.nombre }}</h1>
-        </header>
+        </div>
 
-        <section class="receta-detalle">
-            <p><strong>Ingredientes:</strong> {{ receta.ingredientes }}</p>
-            <p><strong>Preparación:</strong> {{ receta.preparacion }}</p>
-            <p><strong>Tiempo de preparación:</strong> {{ receta.tiempo_preparacion }} minutos</p>
-            <p><strong>Dificultad:</strong> {{ receta.dificultad }}</p>
+        <div class="detail-badges">
+            <span class="badge badge-time">{{ receta.tiempo_preparacion }} minutos</span>
+            <span class="badge badge-difficulty">{{ receta.dificultad }}</span>
+            {% if receta.etiquetas %}
+                <span class="badge badge-tags">{{ receta.etiquetas }}</span>
+            {% endif %}
+        </div>
 
+        <div class="detail-field">
+            <label>Ingredientes</label>
+            <p>{{ receta.ingredientes }}</p>
+        </div>
+
+        <div class="detail-field">
+            <label>Preparacion</label>
+            <p>{{ receta.preparacion }}</p>
+        </div>
+
+        <div class="btn-group">
             {% if receta.user == user %}
-                <div class="acciones">
-                    <a href="{% url 'editar_receta' pk=receta.pk %}" class="btn btn-edit">Editar</a> |
-                    <a href="{% url 'eliminar_receta' pk=receta.pk %}" class="btn btn-delete">Eliminar</a>
-                </div>
+                <a href="{% url 'editar_receta' pk=receta.pk %}" class="btn btn-success">Editar</a>
+                <a href="{% url 'eliminar_receta' pk=receta.pk %}" class="btn btn-danger">Eliminar</a>
             {% endif %}
 
-            {% if request.user in receta.favoritos.all %}
-                <a href="{% url 'quitar_favorito' pk=receta.pk %}" class="btn btn-favorito">Quitar de favoritos</a>
-            {% else %}
-                <a href="{% url 'agregar_favorito' pk=receta.pk %}" class="btn btn-favorito">Agregar a favoritos</a>
+            {% if user.is_authenticated %}
+                {% if user in receta.favoritos.all %}
+                    <form method="post" action="{% url 'quitar_favorito' pk=receta.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning">Quitar de favoritos</button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'agregar_favorito' pk=receta.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning">Agregar a favoritos</button>
+                    </form>
+                {% endif %}
             {% endif %}
-        </section>
 
-        <form action="{% url 'home' %}" method="get">
-            <button type="submit" class="btn btn-primary">Volver a Inicio</button>
-        </form>
+            <a href="{% url 'lista_recetas' %}" class="btn btn-outline">Volver</a>
+        </div>
     </div>
-</body>
-</html>
+{% endblock %}

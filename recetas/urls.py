@@ -7,6 +7,6 @@ urlpatterns = [
     path('nueva/', views.nueva_receta, name='nueva_receta'),
     path('<int:pk>/editar/', views.editar_receta, name='editar_receta'),
     path('<int:pk>/eliminar/', views.eliminar_receta, name='eliminar_receta'),
-    path('receta/<int:pk>/agregar_favorito/', views.agregar_favorito, name='agregar_favorito'),
-    path('receta/<int:pk>/quitar_favorito/', views.quitar_favorito, name='quitar_favorito'),
+    path('<int:pk>/agregar_favorito/', views.agregar_favorito, name='agregar_favorito'),
+    path('<int:pk>/quitar_favorito/', views.quitar_favorito, name='quitar_favorito'),
 ]
